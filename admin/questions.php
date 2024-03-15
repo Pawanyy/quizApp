@@ -183,8 +183,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                                                 <?php endforeach; ?>
                                             </td>
                                             <td>
-                                                <a class="btn btn-info btn-sm"
-                                                    href="/admin/questions_edit.php?quiz_id=<?= $question['quiz_id'] ?>">Edit</a>
                                                 <a class="btn btn-danger btn-sm"
                                                     href="/admin/questions.php?id=<?= $question['question_id'] ?>">Delete</a>
                                             </td>

@@ -21,7 +21,7 @@ include_once dirname(__DIR__) . '/bootstrap.php';
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="<?php echo BASE_URL; ?>">
+                <a class="navbar-brand" href="<?=BASE_URL?>">
                     <img src="https://static.vecteezy.com/system/resources/previews/016/062/449/original/quiz-logo-icon-symbol-cartoon-yellow-bubble-speech-vector.jpg"
                         width="30" height="30" class="d-inline-block align-top" alt="">
                     <?php echo SITE_NAME ?>
@@ -33,7 +33,7 @@ include_once dirname(__DIR__) . '/bootstrap.php';
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="home.php">Home</a>
+                            <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="quiz.php">Quiz</a>

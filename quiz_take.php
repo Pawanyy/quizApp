@@ -21,7 +21,7 @@ if(!isset($_GET['quiz_id']) || $quiz_info == null){
 }
 include_once 'includes/header.php';
 ?>
-<div class="container mt-5">
+<div class="container mb-5">
     <h2 class="mb-4">Quiz Instructions - <?php echo $quiz_info['name']; ?></h2>
     <div class="card">
         <div class="card-body">
@@ -44,11 +44,12 @@ include_once 'includes/header.php';
             // Generate a UUID for the attempt ID
             $attempt_uuid = uniqid();
             ?>
-            <a href="quiz_page.php?quiz_id=<?php echo $quiz_id; ?>&attempt_uuid=<?php echo $attempt_uuid; ?>"
+            <a href="<?=BASE_URL?>/quiz_page.php?quiz_id=<?php echo $quiz_id; ?>&attempt_uuid=<?php echo $attempt_uuid; ?>"
                 class="btn btn-primary">Start Quiz</a>
         </div>
     </div>
 </div>
+<?php include_once 'includes/footer.php'; ?>
 <?php
 // Function to get the number of questions for a quiz
 function getNumberOfQuestions($quiz_id) {

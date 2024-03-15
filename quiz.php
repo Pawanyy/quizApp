@@ -41,10 +41,12 @@ include_once 'includes/header.php';
                     </div>
                     <div class="card-footer">
                         <?php if (isset($_SESSION['user_id'])): ?>
-                        <a href="/quiz_take.php?quiz_id=<?= $quiz['quiz_id'] ?>" class="btn btn-primary btn-block">Start
+                        <a href="<?=BASE_URL?>/quiz_take.php?quiz_id=<?= $quiz['quiz_id'] ?>"
+                            class="btn btn-primary btn-block">Start
                             Quiz</a>
                         <?php else:?>
-                        <a href="/login.php" class="btn btn-outline-info btn-block text-center">Login First</a>
+                        <a href="<?=BASE_URL?>/login.php" class="btn btn-outline-info btn-block text-center">Login
+                            First</a>
                         <?php endif; ?>
                     </div>
                 </div>
