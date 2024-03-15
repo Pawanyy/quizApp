@@ -29,8 +29,8 @@ define('IMAGE_PATH', BASE_URL . '/images/');
 define('ITEMS_PER_PAGE', 10);
 
 // Session Configuration
-ini_set('session.gc_maxlifetime', 3600);
-ini_set('session.cookie_lifetime', 3600);
+ini_set('session.gc_maxlifetime', 36000);
+ini_set('session.cookie_lifetime', 36000);
 ini_set('session.use_only_cookies', 1);
 
 // Security
