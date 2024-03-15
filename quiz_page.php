@@ -141,7 +141,7 @@ include_once 'includes/header.php';
         position: sticky;
         top: 10px;
         float: right;
-        z-index: 1000;
+        z-index: 100;
         background-color: rgba(0, 0, 0, 0.5);
         color: white;
         font-weight: 700;
