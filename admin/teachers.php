@@ -131,7 +131,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <th>Email</th>
                                 <th>Full Name</th>
                                 <th>User Type</th>
-                                <th>College Name</th>
                                 <th>Registration Date</th>
                                 <th>Action</th>
                             </tr>
@@ -139,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <tbody>
                             <?php
                             // Fetch users from the database
-                            $users = $db->getMultipleRows("SELECT users.* FROM $table users LEFT JOIN colleges WHERE users.userType = 'TEACHER'");
+                            $users = $db->getMultipleRows("SELECT users.* FROM $table users WHERE users.userType = 'TEACHER'");
                             foreach ($users as $user) {
                                 echo "<tr data-id='{$user['id']}'>";
                                 echo "<td>{$user['username']}</td>";
@@ -226,7 +225,7 @@ $(document).ready(function() {
         var username = $(this).data('username');
         var email = $(this).data('email');
         var full_name = $(this).data('full_name');
-        var userType = $(this).data('usertype');\\
+        var userType = $(this).data('usertype');
 
         $('#password').prop('required', false);
 

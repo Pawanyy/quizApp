@@ -144,7 +144,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                         <!-- /.card-header -->
                         <div class="card-body">
                             <div class="table-wrapper">
-                                <table id="questionsTable" class="table table-bordered table-striped">
+                                <table id="dataTable" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
                                             <th>Sr. No.</th>
@@ -207,3 +207,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 <!-- /.content-wrapper -->
 
 <?php include __DIR__ . "/include/footer.php";  ?>
+<script>
+$(document).ready(function() {
+    $('#dataTable').DataTable();
+});
+</script>

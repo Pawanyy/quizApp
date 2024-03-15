@@ -31,7 +31,6 @@ if (isset($_GET['edit_id']) && is_numeric($_GET['edit_id'])) {
         $pass_percentage = $existing_quiz_type['pass_percentage'];
         $attempts_limit = $existing_quiz_type['attempts_limit'];
         $shuffle_options = $existing_quiz_type['shuffle_options'];
-        $allow_partial_credit = $existing_quiz_type['allow_partial_credit'];
         $penalty_for_wrong_answer = $existing_quiz_type['penalty_for_wrong_answer'];
         $points_per_question = $existing_quiz_type['points_per_question'];
     }

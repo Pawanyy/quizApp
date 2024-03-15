@@ -20,6 +20,7 @@ define('SITE_NAME', 'Quiz App');
 
 // Paths
 define('BASE_URL', 'http://quiz.test:3000');
+define('ADMIN_URL', BASE_URL . '/admin');
 define('CSS_PATH', BASE_URL . '/css/');
 define('JS_PATH', BASE_URL . '/js/');
 define('IMAGE_PATH', BASE_URL . '/images/');

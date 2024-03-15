@@ -10,14 +10,4 @@ define('MAX_CATEGORY_NAME_LENGTH', 100); // Maximum length of category name
 define('MAX_QUESTION_TEXT_LENGTH', 1000); // Maximum length of question text
 define('MAX_ANSWER_TEXT_LENGTH', 500); // Maximum length of answer text
 
-// Define difficulty levels
-define('DIFFICULTY_EASY', 1);
-define('DIFFICULTY_MEDIUM', 2);
-define('DIFFICULTY_HARD', 3);
-
-// Define permissions
-define('PERMISSION_CREATE_QUIZ', 'Create Quiz');
-define('PERMISSION_VIEW_SCORES', 'View Scores');
-define('PERMISSION_MANAGE_USERS', 'Manage Users');
-
 ?>

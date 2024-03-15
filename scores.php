@@ -81,5 +81,13 @@ include_once 'includes/header.php';
         </div>
     </div>
 </div>
-
+<style>
+tbody td {
+    max-width: 200px;
+    /* Set your desired maximum width */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>
 <?php include_once 'includes/footer.php'; ?>
