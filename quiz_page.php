@@ -211,25 +211,8 @@ include_once 'includes/header.php';
                                 Question #<?php echo $question_number; ?>:
                                 <span class="card-text"><?php echo $question['question_text']; ?></span>
                             </h5>
-                            <?php
-// Assuming $question['difficulty_level'] contains the difficulty level value (1 to 5)
-$difficulty_level = isset($question['difficulty_level']) ? intval($question['difficulty_level']) : 1; // Ensure difficulty level is an integer (default to 1 if not set)
 
-// Calculate RGB values based on difficulty level
-$red = 255 - ($difficulty_level - 1) * 50; // Red decreases as difficulty level increases
-$green = ($difficulty_level - 1) * 50; // Green increases as difficulty level increases
-$blue = 0; // Blue is kept constant or adjusted based on preference
-
-// Ensure RGB values are within valid range (0 to 255)
-$red = max(0, min(255, $red));
-$green = max(0, min(255, $green));
-$blue = max(0, min(255, $blue));
-
-// Construct the color string
-$color = "rgb($red, $green, $blue)";
-?>
-
-                            <span class="badge" style="height: fit-content; background: <?php echo $color; ?>">
+                            <span class="badge badge-warning" style="height: fit-content;">
                                 <?php echo $question['difficulty_level_name']; ?>
                             </span>
 

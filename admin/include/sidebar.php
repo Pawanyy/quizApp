@@ -106,6 +106,12 @@
                         <p>Contacts</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?=ADMIN_URL?>/site_settings.php" class="nav-link">
+                        <i class="nav-icon fas fa-gear"></i>
+                        <p>Site Settings</p>
+                    </a>
+                </li>
                 <?php endif; ?>
             </ul>
         </nav>

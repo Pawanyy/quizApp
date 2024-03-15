@@ -34,11 +34,14 @@ include_once 'includes/header.php';
                 <div class="row">
                     <div class="col-md-6">
                         <h5>Address:</h5>
-                        <p>123 Main Street<br>City, State ZIP<br>Country</p>
+                        <p>
+                            <?=$siteSettings['contactAddress']?>
+                        </p>
                     </div>
                     <div class="col-md-6">
                         <h5>Contact Information:</h5>
-                        <p><strong>Email:</strong> info@example.com<br><strong>Phone:</strong> +1 (123) 456-7890</p>
+                        <p><strong>Email:</strong> <?=$siteSettings['contactEmail']?><br><strong>Phone:</strong>
+                            <?=$siteSettings['contactPhone']?></p>
                     </div>
                 </div>
             </div>

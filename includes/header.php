@@ -22,8 +22,8 @@ include_once dirname(__DIR__) . '/bootstrap.php';
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="<?=BASE_URL?>">
-                    <img src="https://static.vecteezy.com/system/resources/previews/016/062/449/original/quiz-logo-icon-symbol-cartoon-yellow-bubble-speech-vector.jpg"
-                        width="30" height="30" class="d-inline-block align-top" alt="">
+                    <img src="data:image/jpeg;base64,<?= base64_encode($siteSettings['SiteLogo']) ?>" width="45"
+                        height="45" class="d-inline-block align-top" alt="">
                     <?php echo SITE_NAME ?>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -33,36 +33,42 @@ include_once dirname(__DIR__) . '/bootstrap.php';
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="index.php">Home</a>
+                            <a class="nav-link" href="<?=BASE_URL?>/index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="quiz.php">Quiz</a>
+                            <a class="nav-link" href="<?=BASE_URL?>/quiz.php">Quiz</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="about.php">About</a>
+                            <a class="nav-link" href="<?=BASE_URL?>/about.php">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="contact.php">Contact</a>
+                            <a class="nav-link" href="<?=BASE_URL?>/contact.php">Contact</a>
                         </li>
                         <?php
                         if(isset($_SESSION['username'])) {
-                            echo '<li class="nav-item dropdown">';
-                            echo '<a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' . $_SESSION['username'] . '</a>';
-                            echo '<div class="dropdown-menu" aria-labelledby="navbarDropdown">';
-                            echo '<a class="dropdown-item" href="profile.php">Profile</a>';
-                            echo '<a class="dropdown-item" href="change_password.php">Change Password</a>';
-                            echo '<a class="dropdown-item" href="scores.php">Scores</a>';
-                            echo '<div class="dropdown-divider"></div>';
-                            echo '<a class="dropdown-item text-danger" href="logout.php">Logout</a>';
-                            echo '</div>';
-                            echo '</li>';
+                        ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <?=$_SESSION['username']?></a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="<?=BASE_URL?>/profile.php">Profile</a>
+                                <a class="dropdown-item" href="<?=BASE_URL?>/change_password.php">Change Password</a>
+                                <a class="dropdown-item" href="<?=BASE_URL?>/scores.php">Scores</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item text-danger" href="<?=BASE_URL?>/logout.php">Logout</a>
+                            </div>
+                        </li>
+                        <?php
                         } else {
-                            echo '<li class="nav-item">';
-                            echo '<a class="nav-link" href="login.php">Login</a>';
-                            echo '</li>';
-                            echo '<li class="nav-item">';
-                            echo '<a class="nav-link" href="register.php">Register</a>';
-                            echo '</li>';
+                            ?>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light mr-2 ml-2" href="<?=BASE_URL?>/login.php">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light" href="<?=BASE_URL?>/register.php">Register</a>
+                        </li>
+                        <?php
                         }
                         ?>
                     </ul>

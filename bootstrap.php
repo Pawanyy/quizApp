@@ -76,4 +76,6 @@ function adminMessageRedirect($message, $location, $success = true) {
     header("Location: ${BASE_URL}/admin/{$location}");
     exit;
 }
+
+$siteSettings = $db->getSingleRow("SELECT * FROM siteSettings WHERE id = 1");
 ?>

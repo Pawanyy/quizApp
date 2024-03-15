@@ -2,7 +2,7 @@
 
 <style>
 .jumbotron-shadow {
-    background-image: url('https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+    background-image: url('data:image/jpeg;base64,<?= base64_encode($siteSettings['HeroImage']) ?>');
     background-size: cover;
     background-position: center;
     box-shadow: inset 0 0 20px 1000px rgba(0, 0, 0, 0.5);
@@ -49,10 +49,10 @@ hr {
 <!-- Jumbotron -->
 <div class="jumbotron jumbotron-fluid bg-dark text-white jumbotron-shadow">
     <div class="container text-center">
-        <h1 class="display-3 mb-4">Welcome to Quiz Website</h1>
-        <p class="lead mb-4">Explore a wide range of quizzes on various topics!</p>
+        <h1 class="display-3 mb-4"><?=$siteSettings['HomeHeroTitle']?></h1>
+        <p class="lead mb-4"><?=$siteSettings['HomeHeroSubTitle']?></p>
         <a class="btn btn-primary btn-lg mb-4" href="<?=BASE_URL?>/quiz.php" role="button">Browse Quizzes</a>
-        <p class="mb-0">Test your knowledge and have fun!</p>
+        <p class="mb-0"><?=$siteSettings['HomeHeroNote']?></p>
     </div>
 </div>
 
@@ -154,17 +154,11 @@ hr {
         <div class="row">
             <div class="col-lg-6">
                 <h3>Our Mission</h3>
-                <p>We are dedicated to providing a fun and engaging platform for learning through quizzes. Our mission
-                    is to empower individuals to expand their knowledge, challenge themselves, and have fun in the
-                    process. With a wide range of topics and interactive features, we aim to make learning enjoyable and
-                    accessible to everyone.</p>
+                <p><?=$siteSettings['HomeAboutUsMission']?></p>
             </div>
             <div class="col-lg-6">
                 <h3>Our Team</h3>
-                <p>Our team is comprised of passionate individuals who are committed to creating the best possible
-                    experience for our users. From developers and designers to content creators and support staff, each
-                    member plays a vital role in shaping our platform and ensuring its success. Together, we work
-                    tirelessly to innovate, improve, and provide exceptional service to our community.</p>
+                <p><?=$siteSettings['HomeAboutUsTeam']?></p>
             </div>
         </div>
     </div>
