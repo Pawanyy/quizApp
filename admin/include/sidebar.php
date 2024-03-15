@@ -108,7 +108,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="<?=ADMIN_URL?>/site_settings.php" class="nav-link">
-                        <i class="nav-icon fas fa-gear"></i>
+                        <i class="nav-icon fas fa-cogs"></i>
                         <p>Site Settings</p>
                     </a>
                 </li>
