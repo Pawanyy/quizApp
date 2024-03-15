@@ -35,4 +35,7 @@ ini_set('session.use_only_cookies', 1);
 
 // Security
 define('CSRF_TOKEN_NAME', 'csrf_token');
+
+date_default_timezone_set('Asia/Kolkata');
+
 ?>

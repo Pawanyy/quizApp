@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Retrieve quiz information including pass percentage, penalty for wrong answer, points per question,
     // total number of questions, and total points directly from the database using join
-    $quiz_attempt = $db->getSingleRow("SELECT qa.quiz_id, qt.pass_percentage, qt.penalty_for_wrong_answer, qt.points_per_question,
+    $quiz_attempt = $db->getSingleRow("SELECT qa.quiz_id, qa.start_time, qt.time_limit_minutes, qt.pass_percentage, qt.penalty_for_wrong_answer, qt.points_per_question,
                                               COUNT(q.id) AS total_questions,
                                               SUM(qt.points_per_question) AS total_points
                                        FROM quiz_attempts qa
@@ -17,6 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                        JOIN questions qn ON qn.quiz_id = q.id
                                        WHERE qa.id = $quiz_attempt_id
                                        GROUP BY qa.quiz_id");
+
+    // Calculate the end time of the quiz based on the start time and quiz duration
+    $start_time = strtotime($quiz_attempt['start_time']);
+    $quiz_duration_minutes = $quiz_attempt['time_limit_minutes'];
+    $end_time = date("Y-m-d H:i:s", $start_time + ($quiz_duration_minutes * 60));
+
+    // Check if the current time is past the calculated end time
+    $current_time = time();
+    $quiz_has_ended = ($current_time > strtotime($end_time)) ? true : false;
+
+    if ($quiz_has_ended) {
+        // Quiz has ended, perform actions accordingly (e.g., redirect to quiz result page)
+        setMessageRedirect("Sorry Quiz has Ended!", "quiz.php", false);
+    }
 
     // Retrieve the user's answers from the POST data
     $user_answers = $_POST['answer']; // Assuming 'answer' is the name of the input field containing the answers

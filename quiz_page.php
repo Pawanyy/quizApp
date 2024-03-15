@@ -32,9 +32,10 @@ if (empty($attempt_uuid)) {
 
     // Get the current timestamp for start_time
     
-$existing_attempt = $db->getSingleRow("SELECT id FROM quiz_attempts WHERE attempt_uuid = '$attempt_uuid'");
+$existing_attempt = $db->getSingleRow("SELECT id, start_time FROM quiz_attempts WHERE attempt_uuid = '$attempt_uuid'");
 if ($existing_attempt) {    
     $quiz_attempt_id = $existing_attempt['id'];
+    $start_time = $existing_attempt['start_time'];
 } else {
     $start_time = date("Y-m-d H:i:s");
     // Prepare data for insertion into the quiz_attempts table
@@ -64,8 +65,18 @@ if ($quiz_info['is_randomized']) {
     shuffle($questions);
 }
 
+// Get the start time of the quiz attempt
+$start_time = strtotime($start_time);
+
+// Calculate the end time by adding the quiz time duration (in minutes) to the start time
+$quiz_duration_minutes = $quiz_info['quiz_time_limit_minutes'];
+$end_time = date("Y-m-d H:i:s", $start_time + ($quiz_duration_minutes * 60));
+
 include_once 'includes/header.php';
 ?>
+<div class="quiz-timer">
+    Time Remaining: <span id="quiz-timer"></span>
+</div>
 <section class="content mb-5">
     <style>
     .question-card {
@@ -120,6 +131,48 @@ include_once 'includes/header.php';
     .answers_div .form-check .form-check-input {
         position: relative;
         margin: 0;
+    }
+
+    main {
+        position: relative;
+    }
+
+    .quiz-timer {
+        position: sticky;
+        top: 10px;
+        float: right;
+        z-index: 1000;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-weight: 700;
+        padding: 10px;
+        border-radius: 5px;
+        display: inline-block;
+        /* Width fits content */
+    }
+
+    /* Blink animation */
+    @keyframes blink {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+
+    .blink {
+        animation: blink 1s linear infinite;
+        animation-fill-mode: forwards;
+    }
+
+    .quiz-timer:has(.red) {
+        background-color: red !important;
     }
     </style>
     <div class="container-fluid">
@@ -188,7 +241,7 @@ include_once 'includes/header.php';
                     </table>
                 </div>
                 <hr>
-                <form action="quiz_submit.php?quiz_id=<?php echo $quiz_id; ?>" method="post">
+                <form id="quiz-form" action="quiz_submit.php?quiz_id=<?php echo $quiz_id; ?>" method="post">
                     <?php
                     // Initialize question counter
                     $question_number = 1;
@@ -264,4 +317,78 @@ include_once 'includes/header.php';
         </div>
     </div>
 </section>
+<script>
+// Function to update the timer every second
+// Function to update the timer every second
+function updateTimer(endTime) {
+    // Get the current time
+    var currentTime = new Date().getTime();
+
+
+    // Calculate the remaining time in milliseconds
+    var distance = endTime - currentTime;
+
+    // Calculate remaining minutes and seconds
+    var remainingSeconds = Math.floor(distance / 1000); // Convert milliseconds to seconds
+    var minutes = Math.floor(remainingSeconds / 60);
+    var seconds = remainingSeconds % 60;
+
+    if (remainingSeconds < 600) { // If less than 10 minutes remaining
+        var timerDiv = document.getElementById('quiz-timer');
+        timerDiv.classList.add('red', 'blink'); // Add red color and blinking effect
+    } else {
+        var timerDiv = document.getElementById('quiz-timer');
+        timerDiv.classList.remove('red', 'blink'); // Remove red color and blinking effect
+    }
+
+    // Format minutes and seconds with leading zeros if necessary
+    var formattedMinutes = (minutes < 10) ? '0' + minutes : minutes;
+    var formattedSeconds = (seconds < 10) ? '0' + seconds : seconds;
+
+    // Display the remaining time in the timer element
+    document.getElementById('quiz-timer').innerHTML = formattedMinutes + ':' + formattedSeconds;
+
+    console.log("Remaining Time :::> ", remainingSeconds)
+
+    // If the timer has expired, submit the quiz form
+    if (distance <= 0) {
+        // Log the submission
+        console.log("Quiz submission triggered.");
+
+        // Optionally, submit the quiz form
+        document.getElementById('quiz-form').submit();
+    }
+}
+
+// Function to start the timer
+function startTimer(endTime) {
+    // Log the start of the timer
+    console.log("Timer started. End time:", new Date(endTime));
+
+    // Update the timer immediately
+    updateTimer(endTime);
+
+    // Update the timer every second
+    var timerInterval = setInterval(function() {
+        updateTimer(endTime);
+    }, 1000);
+}
+
+// Start the timer when the page is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Get the end time of the quiz from PHP
+    var endTime = new Date('<?php echo $end_time; ?>').getTime();
+
+    // Log the end time obtained from PHP
+    console.log("End time obtained from PHP:", "<?php echo $end_time; ?>", new Date(endTime));
+
+    console.log(new Date())
+
+    // Start the timer
+    startTimer(endTime);
+});
+</script>
+
+</script>
+
 <?php include_once 'includes/footer.php'; ?>
