@@ -1,6 +1,10 @@
 <?php
 require_once(__DIR__ . '/bootstrap.php');
 
+if(!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && $_SESSION['type'] != "STUDENT")){
+    setMessageRedirect("Pls Login First!", "login.php", false);
+}
+
 // Check if the quiz submission form is submitted
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Retrieve the quiz attempt ID from the form data

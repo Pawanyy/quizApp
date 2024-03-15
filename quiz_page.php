@@ -1,8 +1,9 @@
 <?php
 require_once(__DIR__ . '/bootstrap.php');
 
-// Create a new instance of the Database class
-$db = new Database();
+if(!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && $_SESSION['type'] != "STUDENT")){
+    setMessageRedirect("Pls Login First!", "login.php", false);
+}
 
 // Check if quiz_id is set in the URL
 if(isset($_GET['quiz_id'])) {

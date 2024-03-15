@@ -1,6 +1,10 @@
 <?php
 require_once(__DIR__ . '/bootstrap.php');
 
+if(!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && $_SESSION['type'] != "STUDENT")){
+    setMessageRedirect("Pls Login First!", "login.php", false);
+}
+
 // Check if attempt_id is set in the URL
 if (!isset($_GET['attempt_id'])) {
     header("Location: quiz.php");

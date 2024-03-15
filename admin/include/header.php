@@ -1,5 +1,10 @@
 <?php 
 include_once dirname(dirname(__DIR__)). '/bootstrap.php';
+
+if(!isset($_SESSION['user_id']) || (isset($_SESSION['user_id']) && $_SESSION['type'] == "STUDENT")){
+    adminMessageRedirect("Pls Login First!", "index.php", false);
+}
+
 ?>
 <!DOCTYPE html>
 
