@@ -56,17 +56,17 @@ include_once 'includes/header.php';
                             <div class="form-group">
                                 <label for="old_password">Old Password:</label>
                                 <input type="password" class="form-control" id="old_password" name="old_password"
-                                    required>
+                                    required minlength="4" maxlength="16">
                             </div>
                             <div class="form-group">
                                 <label for="new_password">New Password:</label>
                                 <input type="password" class="form-control" id="new_password" name="new_password"
-                                    required>
+                                    required minlength="4" maxlength="16">
                             </div>
                             <div class="form-group">
                                 <label for="confirm_password">Confirm Password:</label>
                                 <input type="password" class="form-control" id="confirm_password"
-                                    name="confirm_password" required>
+                                    name="confirm_password" required minlength="4" maxlength="16">
                             </div>
                             <!-- Add more fields as needed -->
                             <button type="submit" class="btn btn-primary">Change Password</button>

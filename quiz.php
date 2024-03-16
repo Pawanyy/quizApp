@@ -22,11 +22,7 @@ include_once 'includes/header.php';
         </div>
         <div class="row pt-3">
             <?php foreach ($quizzes as $quiz): ?>
-            <div class="col-md-4">
-                <?php
-                // Check if the quiz attempt is ongoing and has not ended yet
-                $quiz_attempt_ongoing = $db->getSingleRow("SELECT * FROM quiz_attempts WHERE quiz_id = {$quiz['quiz_id']} AND user_id = {$_SESSION['user_id']} AND end_time IS NULL");
-                ?>
+            <div class="col-12 col-md-4 mb-4">
                 <!-- Quiz Card -->
                 <div class="card h-100 shadow-sm">
                     <div class="card-header">
@@ -44,7 +40,10 @@ include_once 'includes/header.php';
                         </ul>
                     </div>
                     <div class="card-footer">
-                        <?php if (isset($_SESSION['user_id'])): ?>
+                        <?php if (isset($_SESSION['user_id'])):
+                        // Check if the quiz attempt is ongoing and has not ended yet
+                        $quiz_attempt_ongoing = $db->getSingleRow("SELECT * FROM quiz_attempts WHERE quiz_id = {$quiz['quiz_id']} AND user_id = {$_SESSION['user_id']} AND end_time IS NULL");
+                        ?>
                         <?php if ($quiz_attempt_ongoing): ?>
                         <a href="<?=BASE_URL?>/quiz_page.php?quiz_id=<?= $quiz['quiz_id']?>&attempt_uuid=<?=$quiz_attempt_ongoing['attempt_uuid']?>"
                             class="btn btn-warning btn-block">Continue

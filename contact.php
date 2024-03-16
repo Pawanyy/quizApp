@@ -60,23 +60,32 @@ include_once 'includes/header.php';
                 <form method="POST" action="">
                     <div class="form-group">
                         <label for="name">Name:</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
+                        <input type="text" class="form-control" id="name" name="name" required minlength="2"
+                            maxlength="50">
+                        <div class="invalid-feedback">Please enter a valid name (2-50 characters).</div>
                     </div>
                     <div class="form-group">
                         <label for="email">Email:</label>
                         <input type="email" class="form-control" id="email" name="email" required>
+                        <div class="invalid-feedback">Please enter a valid email address.</div>
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number:</label>
-                        <input type="tel" class="form-control" id="phone" name="phone">
+                        <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10,15}"
+                            title="Please enter a valid phone number (10-15 digits)">
+                        <div class="invalid-feedback">Please enter a valid phone number (10-15 digits).</div>
                     </div>
                     <div class="form-group">
                         <label for="message">Message:</label>
-                        <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                        <textarea class="form-control" id="message" name="message" rows="5" required minlength="10"
+                            maxlength="500"></textarea>
+                        <div class="invalid-feedback">Please enter a message (10-500 characters).</div>
                     </div>
                     <div class="text-center">
-                        <button type="submit" name="contact" class="btn btn-primary">Submit</button>
+                        <button type="submit" name="contact" class="btn btn-primary w-50">Submit</button>
                     </div>
+                </form>
+
                 </form>
             </div>
         </div>

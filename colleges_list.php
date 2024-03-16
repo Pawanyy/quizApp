@@ -62,7 +62,7 @@ include_once 'includes/header.php';
         <!-- College Cards -->
         <div class="row pt-3" id="collegeCards">
             <?php foreach ($colleges as $college): ?>
-            <div class="col-md-4 college-card" data-college-level="<?= $college['college_level'] ?>"
+            <div class="col-12 col-md-4 mb-4 college-card" data-college-level="<?= $college['college_level'] ?>"
                 data-qualifying="<?= (isset($_SESSION['username']) && $quiz_attempt_info && $college['cut_off_percentage'] <= $quiz_attempt_info['percentage']) ? 'true' : 'false' ?>">
                 <!-- College Card -->
                 <div class="card h-100 shadow-sm">
@@ -101,35 +101,54 @@ include_once 'includes/header.php';
 <?php include_once 'includes/footer.php'; ?>
 
 <script>
-// JavaScript for filtering college cards based on selected level and qualifying checkbox
-function filterColleges() {
-    var selectedLevel = document.getElementById('collegeLevel').value;
-    var showQualifyingColleges = document.getElementById('showQualifyingColleges').checked;
-    var collegeCards = document.querySelectorAll('.college-card');
-
-    collegeCards.forEach(function(card) {
-        if (!showQualifyingColleges) {
-            card.style.display = 'block';
-            return;
-        }
-
-        var level = card.getAttribute('data-college-level');
-        var isQualifying = card.getAttribute('data-qualifying') === 'true';
-
-        if ((selectedLevel === 'all' || level === selectedLevel) && (showQualifyingColleges && isQualifying)) {
-            card.style.display = 'block';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-}
-
-// Call the filter function initially and add event listeners
 document.addEventListener('DOMContentLoaded', function() {
+    var showQualifyingCollegesEle = document.getElementById('showQualifyingColleges');
+    var selectLevelEle = document.getElementById('collegeLevel');
+
+    // JavaScript for filtering college cards based on selected level and qualifying checkbox
+    function filterColleges() {
+
+        var selectedLevel = selectLevelEle.value;
+        var showQualifyingColleges = showQualifyingCollegesEle ? showQualifyingCollegesEle.checked : null;
+        var collegeCards = document.querySelectorAll('.college-card');
+
+
+        collegeCards.forEach(function(card) {
+
+            var level = card.getAttribute('data-college-level');
+            var isQualifying = card.getAttribute('data-qualifying') === 'true';
+
+            console.log("Changed 1", showQualifyingColleges);
+
+
+            if (showQualifyingColleges !== null && showQualifyingColleges) {
+                if ((selectedLevel === 'all' || level === selectedLevel) && (isQualifying)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            } else {
+                if (selectedLevel === 'all' || level === selectedLevel) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            }
+
+
+        });
+    }
+
+    // Call the filter function initially and add event listeners
     filterColleges();
 
     // Add event listeners to the dropdown and checkbox
-    document.getElementById('collegeLevel').addEventListener('change', filterColleges);
-    document.getElementById('showQualifyingColleges').addEventListener('change', filterColleges);
+    if (selectLevelEle) {
+        selectLevelEle.addEventListener('change', filterColleges);
+    }
+
+    if (showQualifyingCollegesEle) {
+        showQualifyingCollegesEle.addEventListener('change', filterColleges);
+    }
 });
 </script>

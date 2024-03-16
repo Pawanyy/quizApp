@@ -71,7 +71,7 @@ include_once 'includes/header.php';
                             <div class="form-group">
                                 <label for="username">Username:</label>
                                 <input type="text" class="form-control" id="username" name="username"
-                                    value="<?=$user['username']?>" required>
+                                    value="<?=$user['username']?>" required minlength="3" maxlength="20">
                             </div>
                             <div class="form-group">
                                 <label for="email">Email:</label>
@@ -81,14 +81,16 @@ include_once 'includes/header.php';
                             <div class="form-group">
                                 <label for="full_name">Full Name:</label>
                                 <input type="text" class="form-control" id="full_name" name="full_name"
-                                    value="<?=$user['full_name']?>" required>
+                                    value="<?=$user['full_name']?>" required minlength="2" maxlength="50">
                             </div>
-                            <button type="submit" class="btn btn-primary">Update</button>
-                        </form>
                     </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    </form>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 </div>
 <?php include_once 'includes/footer.php'; ?>
