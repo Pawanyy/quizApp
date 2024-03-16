@@ -12,17 +12,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check for valid action
     if ($action === 'create' || $action === 'update') {
         // Check if required fields are provided
-        if (isset($_POST['name'], $_POST['location'], $_POST['website'], $_POST['description'], $_POST['admission_deadline'])) {
+        if (isset($_POST['name'], $_POST['location'], $_POST['website'], $_POST['description'], $_POST['admission_deadline'], $_POST['cut_off_percentage'], $_POST['college_level'])) {
             $name = $_POST['name'];
+            $college_id = $_POST['id'];
             $location = $_POST['location'];
             $website = $_POST['website'];
             $description = $_POST['description'];
             $admission_deadline = $_POST['admission_deadline'];
+            $cut_off_percentage = $_POST['cut_off_percentage'];
+            $college_level = $_POST['college_level'];
 
             // Check if college already exists
             $existingCollege = $db->getSingleRow("SELECT * FROM $table WHERE name = '$name' AND location = '$location'");
 
-            if ($existingCollege) {
+            if ($existingCollege && $existingCollege["id"] != $college_id) {
                 // College already exists
                 adminMessageRedirect("Error: College already exists.", "colleges.php", false);
             } else {
@@ -32,8 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'location' => $location,
                     'website' => $website,
                     'description' => $description,
-                    'admission_deadline' => $admission_deadline
+                    'admission_deadline' => $admission_deadline,
+                    'cut_off_percentage' => $cut_off_percentage,
+                    'college_level' => $college_level
                 ];
+
+                var_dump($data);
 
                 if ($action === 'create') {
                     $result = $db->insert($table, $data);
@@ -68,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $college['website'],
                     $college['description'],
                     $college['admission_deadline'],
-                    "<button class='btn btn-primary btn-sm edit-college' data-id='{$college['id']}' data-name='{$college['name']}' data-location='{$college['location']}' data-website='{$college['website']}' data-description='{$college['description']}' data-admission_deadline='{$college['admission_deadline']}'>Edit</button>
+                    "<button class='btn btn-primary btn-sm edit-college' data-id='{$college['id']}' data-name='{$college['name']}' data-location='{$college['location']}' data-website='{$college['website']}' data-description='{$college['description']}' data-admission_deadline='{$college['admission_deadline']}' data-cut_off_percentage='{$college['cut_off_percentage']}' data-college_level='{$college['college_level']}'>Edit</button>
                     <button class='btn btn-danger btn-sm delete-college' data-id='{$college['id']}'>Delete</button>" // Delete button
                 ];
             } elseif ($action === 'fetchColleges') {
@@ -78,7 +85,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'location' => $college['location'],
                     'website' => $college['website'],
                     'description' => $college['description'],
-                    'admission_deadline' => $college['admission_deadline']
+                    'admission_deadline' => $college['admission_deadline'],
+                    'cut_off_percentage' => $college['cut_off_percentage'],
+                    'college_level' => $college['college_level']
                 ];
             }
         }
@@ -128,6 +137,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <th>Website</th>
                                 <th>Description</th>
                                 <th>Admission Deadline</th>
+                                <th>Cut Off Percentage</th>
+                                <th>College Level</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -142,8 +153,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 echo "<td>{$college['website']}</td>";
                                 echo "<td>{$college['description']}</td>";
                                 echo "<td>{$college['admission_deadline']}</td>";
+                                echo "<td>{$college['cut_off_percentage']}</td>";
+                                echo "<td>{$college['college_level']}</td>";
                                 echo "<td>
-                                        <button class='btn btn-primary btn-sm edit-college' data-id='{$college['id']}' data-name='{$college['name']}' data-location='{$college['location']}' data-website='{$college['website']}' data-description='{$college['description']}' data-admission_deadline='{$college['admission_deadline']}'>Edit</button>
+                                        <button class='btn btn-primary btn-sm edit-college' data-id='{$college['id']}' data-name='{$college['name']}' data-location='{$college['location']}' data-website='{$college['website']}' data-description='{$college['description']}' data-admission_deadline='{$college['admission_deadline']}' data-cut_off_percentage='{$college['cut_off_percentage']}' data-college_level='{$college['college_level']}'>Edit</button>
                                         <button class='btn btn-danger btn-sm delete-college' data-id='{$college['id']}'>Delete</button>
                                       </td>";
                                 echo "</tr>";
@@ -190,6 +203,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <input type="date" class="form-control" id="admissionDeadline"
                                         name="admission_deadline">
                                 </div>
+                                <div class="form-group">
+                                    <label for="cutOffPercentage">Cut Off Percentage</label>
+                                    <input type="number" class="form-control" id="cutOffPercentage"
+                                        name="cut_off_percentage" min="0" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="collegeLevel">College Level</label>
+                                    <select class="form-control" id="collegeLevel" name="college_level" required>
+                                        <option value="elementary">Elementary</option>
+                                        <option value="low">Low</option>
+                                        <option value="medium">Medium</option>
+                                        <option value="high">High</option>
+                                        <option value="top">Top</option>
+                                    </select>
+                                </div>
                                 <input type="hidden" id="collegeId" name="id">
                                 <input type="hidden" id="action" name="action">
                             </form>
@@ -223,12 +251,16 @@ $(document).ready(function() {
         var website = $(this).data('website');
         var description = $(this).data('description');
         var admissionDeadline = $(this).data('admission_deadline');
+        var cutOffPercentage = $(this).data('cut_off_percentage');
+        var collegeLevel = $(this).data('college_level');
 
         $('#name').val(name);
         $('#location').val(location);
         $('#website').val(website);
         $('#description').val(description);
         $('#admissionDeadline').val(admissionDeadline);
+        $('#cutOffPercentage').val(cutOffPercentage);
+        $('#collegeLevel').val(collegeLevel);
         $('#collegeId').val(id);
         $('#action').val('update');
         $('#collegeFormModalLabel').text('Edit College');
@@ -242,6 +274,8 @@ $(document).ready(function() {
         $('#website').val('');
         $('#description').val('');
         $('#admissionDeadline').val('');
+        $('#cutOffPercentage').val('');
+        $('#collegeLevel').val('');
         $('#collegeId').val('');
         $('#action').val('create');
         $('#collegeFormModalLabel').text('Add College');

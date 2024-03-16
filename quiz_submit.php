@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Retrieve quiz information including pass percentage, penalty for wrong answer, points per question,
     // total number of questions, and total points directly from the database using join
-    $quiz_attempt = $db->getSingleRow("SELECT qa.quiz_id, qa.start_time, qt.time_limit_minutes, qt.pass_percentage, qt.penalty_for_wrong_answer, qt.points_per_question,
+    $quiz_attempt = $db->getSingleRow("SELECT qa.quiz_id, qa.start_time, qt.time_limit_minutes, qt.attempts_limit, qt.pass_percentage, qt.penalty_for_wrong_answer, qt.points_per_question,
                                               COUNT(q.id) AS total_questions,
                                               SUM(qt.points_per_question) AS total_points
                                        FROM quiz_attempts qa
@@ -30,6 +30,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the current time is past the calculated end time
     $current_time = time();
     $quiz_has_ended = ($current_time > strtotime($end_time)) ? true : false;
+
+    // Define attempts limit
+    $attempts_limit = $quiz_attempt['attempts_limit']; // Change this value as needed
+
+    // Check if the user has already exceeded the attempts limit
+    $previous_attempts_count = $db->getSingleValue("SELECT COUNT(*) FROM quiz_attempts WHERE user_id = {$_SESSION['user_id']}");
+
+    if ($previous_attempts_count >= $attempts_limit) {
+        setMessageRedirect("You have exceeded the maximum attempts limit for this quiz.", "quiz.php", false);
+    }
 
     if ($quiz_has_ended) {
         // Quiz has ended, perform actions accordingly (e.g., redirect to quiz result page)
