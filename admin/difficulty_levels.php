@@ -9,6 +9,7 @@ $table = 'difficulty_levels';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         $action = $_POST['action'];
+        $diff_id = isset($_POST['id']) ? $_POST['id'] : 0;
 
         // Check for valid action
         if ($action === 'create' || $action === 'update') {
@@ -16,12 +17,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['name']) && isset($_POST['level'])) {
                 $name = $_POST['name'];
                 $level = $_POST['level'];
+                
+                $existingCondition = (isset($_POST['id']) && !empty($_POST['id'])) ? " AND id != {$_POST['id']}" : "";
 
                 // Check for existing level and name
-                $existingLevel = $db->getSingleRow("SELECT * FROM $table WHERE level = '$level'");
-                $existingName = $db->getSingleRow("SELECT * FROM $table WHERE name = '$name'");
+                $existingLevel = $db->getSingleRow("SELECT * FROM $table WHERE level = '$level' $existingCondition");
+                $existingName = $db->getSingleRow("SELECT * FROM $table WHERE name = '$name' $existingCondition");
 
-                if (($action === 'create' && $existingLevel) || ($action === 'update' && $existingName)) {
+                if (($existingLevel || $existingName)) {
                     // Level or name already exists
                     adminMessageRedirect("Error: Level or name already exists.", "difficulty_levels.php", false);
                 } else {
@@ -165,11 +168,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <form id="difficultyLevelFormInner" method="post">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
+                                    <input type="text" class="form-control" id="name" name="name" required minlength="2"
+                                        maxlength="20">
                                 </div>
                                 <div class="form-group">
                                     <label for="level">Level</label>
-                                    <input type="number" class="form-control" id="level" name="level" required>
+                                    <input type="number" class="form-control" id="level" name="level" required min="1"
+                                        max="10" step="1">
                                 </div>
                                 <input type="hidden" id="difficultyLevelId" name="id">
                                 <input type="hidden" id="action" name="action">

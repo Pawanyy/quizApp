@@ -22,10 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $cut_off_percentage = $_POST['cut_off_percentage'];
             $college_level = $_POST['college_level'];
 
-            // Check if college already exists
-            $existingCollege = $db->getSingleRow("SELECT * FROM $table WHERE name = '$name' AND location = '$location'");
+            $existingCondition = (isset($_POST['id']) && !empty($_POST['id'])) ? " AND id != {$_POST['id']}" : "";
 
-            if ($existingCollege && $existingCollege["id"] != $college_id) {
+            // Check if college already exists
+            $existingCollege = $db->getSingleRow("SELECT * FROM $table WHERE name = '$name' $existingCondition");
+
+            if ($existingCollege) {
                 // College already exists
                 adminMessageRedirect("Error: College already exists.", "colleges.php", false);
             } else {
@@ -75,6 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $college['website'],
                     $college['description'],
                     $college['admission_deadline'],
+                    $college['cut_off_percentage'],
+                    $college['college_level'],
                     "<button class='btn btn-primary btn-sm edit-college' data-id='{$college['id']}' data-name='{$college['name']}' data-location='{$college['location']}' data-website='{$college['website']}' data-description='{$college['description']}' data-admission_deadline='{$college['admission_deadline']}' data-cut_off_percentage='{$college['cut_off_percentage']}' data-college_level='{$college['college_level']}'>Edit</button>
                     <button class='btn btn-danger btn-sm delete-college' data-id='{$college['id']}'>Delete</button>" // Delete button
                 ];
@@ -183,20 +187,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <form id="collegeFormInner" method="post">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
+                                    <input type="text" class="form-control" id="name" name="name" minlength="2"
+                                        maxlength="20" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="location">Location</label>
-                                    <input type="text" class="form-control" id="location" name="location">
+                                    <input type="text" class="form-control" id="location" name="location" minlength="2"
+                                        maxlength="25">
                                 </div>
                                 <div class="form-group">
                                     <label for="website">Website</label>
-                                    <input type="text" class="form-control" id="website" name="website">
+                                    <input type="text" class="form-control" id="website" name="website" minlength="2"
+                                        maxlength="25">
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description</label>
-                                    <textarea class="form-control" id="description" name="description"
-                                        rows="3"></textarea>
+                                    <textarea class="form-control" id="description" name="description" rows="3"
+                                        minlength="2" maxlength="100" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="admissionDeadline">Admission Deadline</label>
@@ -206,7 +213,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="form-group">
                                     <label for="cutOffPercentage">Cut Off Percentage</label>
                                     <input type="number" class="form-control" id="cutOffPercentage"
-                                        name="cut_off_percentage" min="0" step="0.01" required>
+                                        name="cut_off_percentage" min="0" max="100" step="0.01" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="collegeLevel">College Level</label>

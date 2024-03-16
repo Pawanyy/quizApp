@@ -16,8 +16,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_POST['name'])) {
                 $name = $_POST['name'];
 
+                $existingCondition = (isset($_POST['id']) && !empty($_POST['id'])) ? " AND id != {$_POST['id']}" : "";
                 // Check if category already exists
-                $existingCategory = $db->getSingleRow("SELECT * FROM $table WHERE name = '$name'");
+                $existingCategory = $db->getSingleRow("SELECT * FROM $table WHERE name = '$name' $existingCondition");
 
                 if ($existingCategory) {
                     // Category already exists
@@ -142,7 +143,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <form id="categoryFormInner" method="post">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
+                                    <input type="text" class="form-control" id="name" name="name" minlength="2"
+                                        maxlength="20" required>
                                 </div>
                                 <input type="hidden" id="categoryId" name="id">
                                 <input type="hidden" id="action" name="action">

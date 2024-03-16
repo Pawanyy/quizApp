@@ -104,12 +104,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label for="name">Name:</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         value="<?php echo isset($existing_quiz) ? $existing_quiz['name'] : ''; ?>"
-                                        required>
+                                        required minlength="2" maxlength="20">
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description:</label>
-                                    <textarea class="form-control" id="description" name="description"
-                                        rows="3"><?php echo isset($existing_quiz) ? $existing_quiz['description'] : ''; ?></textarea>
+                                    <textarea class="form-control" id="description" name="description" rows="3"
+                                        minlength="2" maxlength="100"
+                                        required><?php echo isset($existing_quiz) ? $existing_quiz['description'] : ''; ?></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="category_id">Category:</label>

@@ -131,12 +131,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="form-group">
                                     <label for="question_text">Question Text:</label>
                                     <textarea class="form-control" id="question_text" name="question_text" rows="3"
-                                        required></textarea>
+                                        minlength="2" maxlength="500" required></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="explanation">Explanation:</label>
-                                    <textarea class="form-control" id="explanation" name="explanation"
-                                        rows="3"></textarea>
+                                    <textarea class="form-control" id="explanation" name="explanation" rows="3"
+                                        minlength="2" maxlength="500" required></textarea>
                                 </div>
                                 <div class="form-group" id="answers-group">
                                     <label>Answers:</label>
@@ -153,12 +153,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <tr>
                                                 <td>1</td>
                                                 <td>
-                                                    <input class="form-check-input" type="checkbox"
+                                                    <input class="form-check-input m-0" type="checkbox"
                                                         name="answers[0][is_correct]" value="1">
                                                 </td>
                                                 <td>
                                                     <input class="form-control" type="text"
-                                                        name="answers[0][answer_text]" required>
+                                                        name="answers[0][answer_text]" minlength="1" maxlength="100"
+                                                        required>
                                                 </td>
                                                 <td>
                                                 </td>
@@ -171,6 +172,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <button type="submit" class="btn btn-primary">Add Question and Answers</button>
                                 </div>
                             </form>
+                            <style>
+                            input[type="checkbox"] {
+                                width: 25px;
+                                height: 25px;
+                            }
+                            </style>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -197,10 +204,10 @@ document.addEventListener('DOMContentLoaded', function() {
         newRow.innerHTML = `
             <td>${answerIndex + 1}</td>
             <td>
-                <input class="form-check-input" type="checkbox" name="answers[${answerIndex}][is_correct]" value="1">
+                <input class="form-check-input m-0" type="checkbox" name="answers[${answerIndex}][is_correct]" value="1">
             </td>
             <td>
-                <input class="form-control" type="text" name="answers[${answerIndex}][answer_text]" required>
+                <input class="form-control" type="text" name="answers[${answerIndex}][answer_text]" minlength="1" maxlength="100"  required>
             </td>
             <td>
                 <button type="button" class="btn btn-danger remove-answer">Remove</button>

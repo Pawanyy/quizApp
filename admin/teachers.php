@@ -174,11 +174,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <form id="userFormInner" method="post">
                                 <div class="form-group">
                                     <label for="username">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username" required>
+                                    <input type="text" class="form-control" id="username" name="username" required
+                                        minlength="3" maxlength="20">
                                 </div>
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" class="form-control" id="password" name="password">
+                                    <input type="password" class="form-control" id="password" name="password"
+                                        minlength="4" maxlength="16">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email</label>
@@ -186,7 +188,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                                 <div class="form-group">
                                     <label for="full_name">Full Name</label>
-                                    <input type="text" class="form-control" id="full_name" name="full_name" required>
+                                    <input type="text" class="form-control" id="full_name" name="full_name" required
+                                        minlength="2" maxlength="50">
                                 </div>
                                 <div class="form-group">
                                     <label for="userType">User Type</label>
@@ -241,7 +244,6 @@ $(document).ready(function() {
 
     // Show user form modal for creating new user
     $('#addUserButton').click(function() {
-        fetchColleges();
         $('#username').val('');
         $('#email').val('');
         $('#password').val('');

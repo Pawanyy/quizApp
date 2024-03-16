@@ -49,6 +49,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $shuffle_options = $_POST["shuffle_options"];
     $penalty_for_wrong_answer = $_POST["penalty_for_wrong_answer"];
     $points_per_question = $_POST["points_per_question"];
+
+    $existingCondition = (isset($_POST['id']) && !empty($_POST['id'])) ? " AND id != {$_POST['id']}" : "";
+
+    // Check for existing name
+    $existingName = $db->getSingleRow("SELECT * FROM $table WHERE type_name = '$type_name' $existingCondition");
+
+    if (($existingName)) {
+        // Level or name already exists
+        adminMessageRedirect("Error: Type Name already exists.", "quiz_types.php", false);
+    }
     
     // Proceed with create or update
     $data = [
@@ -128,19 +138,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <label for="type_name">Type Name:</label>
                                     <input type="text" class="form-control" id="type_name" name="type_name"
                                         value="<?php echo isset($existing_quiz_type) ? $existing_quiz_type['type_name'] : ''; ?>"
-                                        required>
+                                        minlength="2" maxlength="20" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Description:</label>
-                                    <textarea class="form-control" id="description" name="description"
-                                        rows="3"><?php echo isset($existing_quiz_type) ? $existing_quiz_type['description'] : ''; ?></textarea>
+                                    <textarea class="form-control" id="description" name="description" rows="3"
+                                        minlength="2" maxlength="100"
+                                        required><?php echo isset($existing_quiz_type) ? $existing_quiz_type['description'] : ''; ?></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label for="time_limit_minutes">Time Limit (minutes):</label>
                                     <input type="number" class="form-control" id="time_limit_minutes"
                                         name="time_limit_minutes"
                                         value="<?php echo isset($existing_quiz_type) ? $existing_quiz_type['time_limit_minutes'] : ''; ?>"
-                                        min="1">
+                                        min="1" max="100" step="1" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="is_randomized">Is Randomized:</label>
@@ -169,13 +180,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="number" class="form-control" id="pass_percentage"
                                         name="pass_percentage"
                                         value="<?php echo isset($existing_quiz_type) ? $existing_quiz_type['pass_percentage'] : ''; ?>"
-                                        min="0" max="100">
+                                        min="0" max="100" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="attempts_limit">Attempts Limit:</label>
                                     <input type="number" class="form-control" id="attempts_limit" name="attempts_limit"
                                         value="<?php echo isset($existing_quiz_type) ? $existing_quiz_type['attempts_limit'] : ''; ?>"
-                                        min="1">
+                                        min="1" max="999" step="1" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="shuffle_options">Shuffle Options:</label>
@@ -205,7 +216,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="number" class="form-control" id="points_per_question"
                                         name="points_per_question"
                                         value="<?php echo isset($existing_quiz_type) ? $existing_quiz_type['points_per_question'] : ''; ?>"
-                                        min="1">
+                                        min="1" max="100" step="1" required>
                                 </div>
                                 <button type="submit"
                                     class="btn btn-primary"><?php echo isset($_GET['edit_id']) ? 'Update Quiz Type' : 'Add Quiz Type'; ?></button>
