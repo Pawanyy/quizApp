@@ -12,7 +12,7 @@ if(isset($_GET['quiz_id'])) {
     $quiz_id = $_GET['quiz_id'];
     
     // Fetch quiz information from the database based on quiz_id
-    $quiz_info = $db->getSingleRow("SELECT q.*, c.name AS category_name, t.time_limit_minutes
+    $quiz_info = $db->getSingleRow("SELECT q.*, c.name AS category_name, t.time_limit_minutes, t.attempts_limit
                                     FROM quizzes q
                                     JOIN categories c ON q.category_id = c.id
                                     JOIN quiz_types t ON q.quiz_type_id = t.id
@@ -23,6 +23,14 @@ if(isset($_GET['quiz_id'])) {
 if(!isset($_GET['quiz_id']) || $quiz_info == null){
     setMessageRedirect("Quiz not found!", "quiz.php", false);
 }
+
+// Check if the user has already exceeded the attempts limit
+$previous_attempts_count = $db->getSingleValue("SELECT COUNT(*) FROM quiz_attempts WHERE user_id = {$_SESSION['user_id']} AND quiz_id = {$quiz_id}");
+
+if ($previous_attempts_count >= $quiz_info['attempts_limit']) {
+    setMessageRedirect("You have exceeded the maximum attempts limit for this quiz.", "quiz.php", false);
+}
+
 include_once 'includes/header.php';
 ?>
 <div class="container mb-5">

@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $attempts_limit = $quiz_attempt['attempts_limit']; // Change this value as needed
 
     // Check if the user has already exceeded the attempts limit
-    $previous_attempts_count = $db->getSingleValue("SELECT COUNT(*) FROM quiz_attempts WHERE user_id = {$_SESSION['user_id']} AND id != {$quiz_attempt_id}");
+    $previous_attempts_count = $db->getSingleValue("SELECT COUNT(*) FROM quiz_attempts WHERE user_id = {$_SESSION['user_id']} AND id != {$quiz_attempt_id} AND quiz_id = {$quiz_attempt['quiz_id']}");
 
     if ($previous_attempts_count >= $attempts_limit) {
         setMessageRedirect("You have exceeded the maximum attempts limit for this quiz.", "quiz.php", false);
