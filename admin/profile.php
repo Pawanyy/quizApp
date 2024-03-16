@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="form-group">
                                     <label for="username">Username:</label>
                                     <input type="text" class="form-control" id="username" name="username"
-                                        value="<?= $user['username'] ?>" required>
+                                        value="<?= $user['username'] ?>" required minlength="3" maxlength="20">
                                 </div>
                                 <div class="form-group">
                                     <label for="email">Email:</label>
@@ -73,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <div class="form-group">
                                     <label for="full_name">Full Name:</label>
                                     <input type="text" class="form-control" id="full_name" name="full_name"
-                                        value="<?= $user['full_name'] ?>" required>
+                                        value="<?= $user['full_name'] ?>" required minlength="2" maxlength="50">
                                 </div>
                                 <!-- Add more fields as needed -->
                                 <button type="submit" class="btn btn-primary">Save Changes</button>

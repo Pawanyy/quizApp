@@ -58,11 +58,13 @@ include_once 'includes/header.php';
                 <form method="POST" action="">
                     <div class="form-group">
                         <label for="username">Username:</label>
-                        <input type="text" class="form-control" id="username" name="username" required>
+                        <input type="text" class="form-control" id="username" name="username" required minlength="3"
+                            maxlength="20">
                     </div>
                     <div class="form-group">
                         <label for="password">Password:</label>
-                        <input type="password" class="form-control" id="password" name="password" required>
+                        <input type="password" class="form-control" id="password" name="password" required minlength="4"
+                            maxlength="16">
                     </div>
                     <button type="submit" name="login" class="btn btn-primary">Login</button>
                 </form>

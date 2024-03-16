@@ -1,6 +1,5 @@
 <?php 
 include_once 'bootstrap.php';
-include_once 'includes/header.php'; 
 
 if (isset($_POST['register'])) {
     
@@ -20,11 +19,13 @@ if (isset($_POST['register'])) {
     }
 
     if ($db->registerUser($username, $password, $email, $full_name, "STUDENT")) {
-        setMessageRedirect("User registered successfully!", "register.php", true);
+        setMessageRedirect("User registered successfully!", "login.php", true);
     } else {
         setMessageRedirect("Error registering user!", "register.php", false);
     }
 }
+
+include_once 'includes/header.php'; 
 ?>
 
 <style>
