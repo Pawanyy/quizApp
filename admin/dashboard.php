@@ -148,7 +148,7 @@ function getQuizTypeDistribution()
 
                         <div class="info-box-content">
                             <span class="info-box-text">Total Doctors</span>
-                            <span class="info-box-number"><?php echo getTotalQuizAttemptsStatus()['passed']; ?></span>
+                            <span class="info-box-number"><?php echo getTotalCount('doctors'); ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -160,7 +160,7 @@ function getQuizTypeDistribution()
 
                         <div class="info-box-content">
                             <span class="info-box-text">Total Books</span>
-                            <span class="info-box-number"><?php echo getTotalQuizAttemptsStatus()['passed']; ?></span>
+                            <span class="info-box-number"><?php echo getTotalCount('books'); ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>

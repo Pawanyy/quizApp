@@ -57,16 +57,30 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     // Build condition for deletion
     $condition = "id = $id";
 
-    // Perform deletion operation
-    $result = $db->delete($table, $condition);
-
-    // Check if deletion was successful
-    if ($result) {
-        // Redirect with success message
-        adminMessageRedirect("Success: Operation completed.", "quizzes.php", true);
-    } else {
-        // Redirect with failure message
-        adminMessageRedirect("Error: Operation failed.", "quizzes.php", false);
+    try {
+        // Perform deletion operation
+        $result = $db->delete($table, $condition);
+        
+        // Check if deletion was successful
+        if ($result) {
+            // Redirect with success message
+            adminMessageRedirect("Success: Operation completed.", "quizzes.php", true);
+        } else {
+            // Redirect with failure message
+            adminMessageRedirect("Error: Operation failed.", "quizzes.php", false);
+        }
+    } catch (mysqli_sql_exception $e) {
+        // Handle MySQL exceptions
+        if (strpos($e->getMessage(), 'foreign key constraint fails') !== false) {
+            // Foreign key constraint violation
+            adminMessageRedirect("Error: Cannot delete the record. It is associated with other data.", "quizzes.php", false);
+        } else {
+            // Other types of exceptions
+            adminMessageRedirect("Error: An error occurred while processing the operation.", "quizzes.php", false);
+        }
+    } catch (Exception $e) {
+        // Handle other types of exceptions
+        adminMessageRedirect("Error: An error occurred while processing the operation.", "quizzes.php", false);
     }
 }
 ?>
