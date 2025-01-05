@@ -2,8 +2,8 @@
 // Include the database connection and necessary functions
 include_once dirname(__DIR__). '/bootstrap.php';
 
-$table = "quiz_types"; // Assuming this is your table name
-$quizTypes = $db->getMultipleRows("SELECT * FROM $table ORDER BY id ASC");
+$table = "doctors"; // Assuming this is your table name
+$doctors = $db->getMultipleRows("SELECT * FROM $table ORDER BY id ASC");
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $id = $_GET['id'];
@@ -19,23 +19,23 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         // Check if deletion was successful
         if ($result) {
             // Redirect with success message
-            adminMessageRedirect("Success: Operation completed.", "quiz_types.php", true);
+            adminMessageRedirect("Success: Operation completed.", "doctors.php", true);
         } else {
             // Redirect with failure message
-            adminMessageRedirect("Error: Operation failed.", "quiz_types.php", false);
+            adminMessageRedirect("Error: Operation failed.", "doctors.php", false);
         }
     } catch (mysqli_sql_exception $e) {
         // Handle MySQL exceptions
         if (strpos($e->getMessage(), 'foreign key constraint fails') !== false) {
             // Foreign key constraint violation
-            adminMessageRedirect("Error: Cannot delete the record. It is associated with other data.", "quiz_types.php", false);
+            adminMessageRedirect("Error: Cannot delete the record. It is associated with other data.", "doctors.php", false);
         } else {
             // Other types of exceptions
-            adminMessageRedirect("Error: An error occurred while processing the operation.", "quiz_types.php", false);
+            adminMessageRedirect("Error: An error occurred while processing the operation.", "doctors.php", false);
         }
     } catch (Exception $e) {
         // Handle other types of exceptions
-        adminMessageRedirect("Error: An error occurred while processing the operation.", "quiz_types.php", false);
+        adminMessageRedirect("Error: An error occurred while processing the operation.", "doctors.php", false);
     }
 }
 ?>
@@ -73,8 +73,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Quiz Types</h3>
-                            <a class="btn btn-primary float-right" href="/admin/quiz_types_add.php">Add Quiz Type</a>
+                            <h3 class="card-title">Doctors</h3>
+                            <a class="btn btn-primary float-right" href="/admin/doctors_add.php">Add Doctor</a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
@@ -83,43 +83,29 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                                     <thead>
                                         <tr>
                                             <th>ID</th>
-                                            <th>Type Name</th>
+                                            <th>Name</th>
+                                            <th>Specialist</th>
+                                            <th>Contact</th>
+                                            <th>Location</th>
                                             <th>Description</th>
-                                            <th>Time Limit (minutes)</th>
-                                            <th>Is Randomized</th>
-                                            <th>Show Correct Answers</th>
-                                            <th>Pass Percentage</th>
-                                            <th>Show Books if below Percentage</th>
-                                            <th>Show Books if below Percentage</th>
-                                            <th>Attempts Limit</th>
-                                            <th>Shuffle Options</th>
-                                            <th>Penalty for Wrong Answer</th>
-                                            <th>Points per Question</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($quizTypes as $quizType): ?>
+                                        <?php foreach ($doctors as $doctor): ?>
                                         <tr>
-                                            <td><?= $quizType['id'] ?></td>
-                                            <td><?= $quizType['type_name'] ?></td>
-                                            <td><?= $quizType['description'] ?></td>
-                                            <td><?= $quizType['time_limit_minutes'] ?></td>
-                                            <td><?= $quizType['is_randomized'] ? 'Yes' : 'No' ?></td>
-                                            <td><?= $quizType['show_correct_answers'] ? 'Yes' : 'No' ?></td>
-                                            <td><?= $quizType['pass_percentage'] ?></td>
-                                            <td><?= $quizType['show_doctors_percentage'] ?></td>
-                                            <td><?= $quizType['show_books_percentage'] ?></td>
-                                            <td><?= $quizType['attempts_limit'] ?></td>
-                                            <td><?= $quizType['shuffle_options'] ? 'Yes' : 'No' ?></td>
-                                            <td><?= $quizType['penalty_for_wrong_answer'] ? 'Yes' : 'No' ?></td>
-                                            <td><?= $quizType['points_per_question'] ?></td>
+                                            <td><?= $doctor['id'] ?></td>
+                                            <td><?= $doctor['name'] ?></td>
+                                            <td><?= $doctor['specialist'] ?></td>
+                                            <td><?= $doctor['contact'] ?></td>
+                                            <td><?= $doctor['location'] ?></td>
+                                            <td><?= $doctor['description'] ?></td>
                                             <td>
                                                 <a class="btn btn-primary btn-sm ml-2"
-                                                    href="/admin/quiz_types_add.php?edit_id=<?= $quizType['id'] ?>">Edit</a>
-                                                <a href="quiz_types.php?id=<?= $quizType['id'] ?>"
+                                                    href="/admin/doctors_add.php?edit_id=<?= $doctor['id'] ?>">Edit</a>
+                                                <a href="doctors.php?id=<?= $doctor['id'] ?>"
                                                     class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this quiz type?')">Delete</a>
+                                                    onclick="return confirm('Are you sure you want to delete this doctor?')">Delete</a>
                                             </td>
                                         </tr>
                                         <?php endforeach; ?>

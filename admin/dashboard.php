@@ -142,6 +142,30 @@ function getQuizTypeDistribution()
                     </div>
                     <!-- /.info-box -->
                 </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-success"><i class="fas fa-user-md"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Doctors</span>
+                            <span class="info-box-number"><?php echo getTotalQuizAttemptsStatus()['passed']; ?></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-primary"><i class="fas fa-book"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Total Books</span>
+                            <span class="info-box-number"><?php echo getTotalQuizAttemptsStatus()['passed']; ?></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
                 <!-- /.col -->
                 <div class="col-md-3 col-sm-6 col-12">
                     <div class="info-box">

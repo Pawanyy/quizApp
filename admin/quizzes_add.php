@@ -40,12 +40,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'quiz_type_id' => $quiz_type_id
     ];
 
+    
+    $existingCondition = (isset($_POST['id']) && !empty($_POST['id'])) ? " AND id != {$_POST['id']}" : "";
+
+    // Check for existing name
+    $existingName = $db->getSingleRow("SELECT * FROM $table WHERE name = '$name' $existingCondition");
+
+    if (($existingName)) {
+        // Quiz Name already exists
+        adminMessageRedirect("Error: Quiz Name already exists.", "quizzes.php", false);
+    }
+
     if (isset($_GET['edit_id']) && is_numeric($_GET['edit_id'])) {
         // Insert data into database
         $condition = "id = {$_GET['edit_id']}";
         $result = $db->update($table, $data, $condition);
     } else {
+        
+        // Insert data into database
         $result = $db->insert($table, $data);
+
     }
     // Check if insertion was successful
     if ($result) {

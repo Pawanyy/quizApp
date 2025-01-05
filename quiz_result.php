@@ -13,7 +13,7 @@ if (!isset($_GET['attempt_id'])) {
 $attempt_id = $_GET['attempt_id'];
 
 // Fetch quiz attempt information from the database based on attempt_id
-$quiz_attempt = $db->getSingleRow("SELECT qa.*, q.name AS quiz_name, qt.pass_percentage, qt.show_correct_answers
+$quiz_attempt = $db->getSingleRow("SELECT qa.*, q.name AS quiz_name, qt.pass_percentage, qt.show_books_percentage, qt.show_doctors_percentage, qt.show_correct_answers
                                    FROM quiz_attempts qa
                                    JOIN quizzes q ON qa.quiz_id = q.id
                                    JOIN quiz_types qt ON q.quiz_type_id = qt.id
@@ -25,6 +25,10 @@ $user_answers = $db->getMultipleRows("SELECT qaa.*, qn.question_text, qn.explana
                                       JOIN questions qn ON qaa.question_id = qn.id
                                       LEFT JOIN answers ans ON qn.id = ans.question_id AND ans.is_correct = 1
                                       WHERE qaa.quiz_attempt_id = $attempt_id");
+
+$books = $db->getMultipleRows("SELECT * from books ORDER BY RAND() LIMIT 4");
+
+$doctors = $db->getMultipleRows("SELECT * from doctors ORDER BY RAND() LIMIT 4");
 
 // Calculate performance summary
 $total_questions = count($user_answers);
@@ -90,5 +94,50 @@ include_once 'includes/header.php';
             </div>
         </div>
     </div>
+    
+    <?php if($quiz_attempt['percentage'] < $quiz_attempt['show_books_percentage']){ ?> 
+    <hr>
+    <h3>Suggested Books</h3>
+    <div class="row">
+        <?php foreach($books as $book){ ?>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header p-0 bg-white d-flex items-center justify-content-center">
+                    <img class="w-75" src=<?=IMAGE_PATH . "book.jpg"?>>
+                </div>
+                <div class="card-body">
+                    <h4><?=$book["name"]?></h4>
+                    <div>by <strong><?=$book["author"]?></strong></div>
+                    <p class="mt-2"><?=substr($book["description"], 0, 100)?>...</p>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+    </div>
+    <?php } ?>
+    
+    <?php if($quiz_attempt['percentage'] < $quiz_attempt['show_doctors_percentage']){ ?> 
+    <hr>
+    <h3>Suggested Doctors</h3>
+    <div class="row">
+        <?php foreach($doctors as $doctor){ ?>
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header bg-white p-0 d-flex items-center justify-content-center">
+                    <img class="w-75" src=<?=IMAGE_PATH . "doctor.png"?>>
+                </div>
+                <div class="card-body">
+                    <h4><?=$doctor["name"]?></h4>
+                    <div>Location: <strong><?=$doctor["location"]?></strong></div>
+                    <div>Contact: <strong><?=$doctor["contact"]?></strong></div>
+                    <div>Specialist: <strong><?=$doctor["specialist"]?></strong></div>
+                    <p class="mt-2"><?=substr($doctor["description"], 0, 100)?>...</p>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+    </div>
+    <?php } ?>
+    
 </section>
 <?php include_once 'includes/footer.php'; ?>

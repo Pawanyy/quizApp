@@ -48,7 +48,7 @@ include_once dirname(__DIR__) . '/bootstrap.php';
                             <a class="nav-link" href="<?=BASE_URL?>/colleges_list.php">Colleges</a>
                         </li>
                         <?php
-                        if(isset($_SESSION['username'])) {
+                        if(isset($_SESSION['username']) && isset($_SESSION['type']) && strtolower($_SESSION['type']) === "student") {
                         ?>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button"

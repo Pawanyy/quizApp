@@ -45,6 +45,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $is_randomized = $_POST["is_randomized"];
     $show_correct_answers = $_POST["show_correct_answers"];
     $pass_percentage = $_POST["pass_percentage"];
+    $show_books_percentage = $_POST["show_books_percentage"];
+    $show_doctors_percentage = $_POST["show_doctors_percentage"];
     $attempts_limit = $_POST["attempts_limit"];
     $shuffle_options = $_POST["shuffle_options"];
     $penalty_for_wrong_answer = $_POST["penalty_for_wrong_answer"];
@@ -68,6 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'is_randomized' => $is_randomized,
         'show_correct_answers' => $show_correct_answers,
         'pass_percentage' => $pass_percentage,
+        'show_books_percentage' => $show_books_percentage,
+        'show_doctors_percentage' => $show_doctors_percentage,
         'attempts_limit' => $attempts_limit,
         'shuffle_options' => $shuffle_options,
         'penalty_for_wrong_answer' => $penalty_for_wrong_answer,
@@ -182,6 +186,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         value="<?php echo isset($existing_quiz_type) ? $existing_quiz_type['pass_percentage'] : ''; ?>"
                                         min="0" max="100" required>
                                 </div>
+                                
+                                <div class="form-group">
+                                    <label for="show_books_percentage">Show books if below Percentage:</label>
+                                    <input type="number" class="form-control" id="show_books_percentage"
+                                        name="show_books_percentage"
+                                        value="<?php echo isset($existing_quiz_type) ? $existing_quiz_type['show_books_percentage'] : ''; ?>"
+                                        min="0" max="100" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="show_doctors_percentage">Show doctors if below Percentage:</label>
+                                    <input type="number" class="form-control" id="show_doctors_percentage"
+                                        name="show_doctors_percentage"
+                                        value="<?php echo isset($existing_quiz_type) ? $existing_quiz_type['show_doctors_percentage'] : ''; ?>"
+                                        min="0" max="100" required>
+                                </div>
+
                                 <div class="form-group">
                                     <label for="attempts_limit">Attempts Limit:</label>
                                     <input type="number" class="form-control" id="attempts_limit" name="attempts_limit"

@@ -73,6 +73,18 @@
                         <p>Categories</p>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="<?=ADMIN_URL?>/books.php" class="nav-link">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>Books</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="<?=ADMIN_URL?>/doctors.php" class="nav-link">
+                        <i class="nav-icon fas fa-user-md"></i>
+                        <p>Doctors</p>
+                    </a>
+                </li>
                 <?php if($_SESSION['type'] !== 'TEACHER'): ?>
                 <li class="nav-item">
                     <a href="<?=ADMIN_URL?>/colleges.php" class="nav-link">

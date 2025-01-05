@@ -58,7 +58,11 @@ include_once 'includes/header.php';
                                     <?php foreach ($quiz_attempts as $attempt): ?>
                                     <tr>
                                         <td><?php echo $serial++; ?></td>
-                                        <td><?php echo $attempt['quiz_name']; ?></td>
+                                        <td>
+                                            <a href="<?php echo BASE_URL . "/quiz_result.php?attempt_id=" . $attempt["id"] ?>">
+                                                <?php echo $attempt['quiz_name']; ?>
+                                            </a>
+                                        </td>
                                         <td><?php echo $attempt['time_limit_minutes']; ?></td>
                                         <td><?php echo $attempt['category_name']; ?></td>
                                         <td><?php echo $attempt['start_time']; ?></td>
