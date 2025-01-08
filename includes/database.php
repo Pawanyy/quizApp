@@ -2,13 +2,16 @@
 
 require_once(__DIR__ . '/config.php');
 require_once(__DIR__ . '/constants.php');
+require_once(__DIR__ . '/logger.php');
 
 class Database {
     private $connection;
+    private $logger;
 
     // Constructor
     public function __construct() {
         $this->connect();
+        $this->logger = new Logger();
     }
 
     // Connect to the database
@@ -28,6 +31,7 @@ class Database {
 
     // Execute a database query
     public function query($sql) {
+        $this->logger->debug($sql);
         return mysqli_query($this->connection, $sql);
     }
 
