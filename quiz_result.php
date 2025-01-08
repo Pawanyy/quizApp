@@ -103,7 +103,13 @@ include_once 'includes/header.php';
         <div class="col-3">
             <div class="card">
                 <div class="card-header p-0 bg-white d-flex items-center justify-content-center">
-                    <img class="w-75" src=<?=IMAGE_PATH . "book.jpg"?>>
+                <?php if(isset($book) && !empty($book['image'])){ ?>
+                    <img src="data:image/jpeg;base64,<?= base64_encode($book['image']) ?>"
+                        alt="Book Image" class="w-75">
+                <?php } else { ?>
+                    <img src="<?php echo IMAGE_PATH ."book.jpg" ?>"
+                        alt="Book Image" class="w-75">
+                <?php } ?>
                 </div>
                 <div class="card-body">
                     <h4><?=$book["name"]?></h4>

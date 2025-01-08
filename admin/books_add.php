@@ -27,6 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST["name"];
     $author = $_POST["author"];
     $description = $_POST["description"];
+    $image = isset($_FILES['image']['tmp_name']) ? $_FILES['image']['tmp_name'] : null;
 
     $existingCondition = (isset($_POST['id']) && !empty($_POST['id'])) ? " AND id != {$_POST['id']}" : "";
 
@@ -44,6 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'author' => $author,
         'description' => $description,
     ];
+
+    if ($image !== null && !empty($image)) {
+        $data['image'] = file_get_contents($image);
+    }
 
     if (isset($_GET['edit_id']) && is_numeric($_GET['edit_id'])) {
         // Insert data into database
@@ -105,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="card-body">
                             <form
                                 action="books_add.php<?php echo isset($_GET['edit_id']) ? '?edit_id=' . $_GET['edit_id'] : ''; ?>"
-                                method="POST">
+                                method="POST" enctype="multipart/form-data">
                                 <div class="form-group">
                                     <label for="name">Name:</label>
                                     <input type="text" class="form-control" id="name" name="name"
@@ -123,6 +128,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <textarea class="form-control" id="description" name="description" rows="3"
                                         minlength="2" maxlength="500"
                                         required><?php echo isset($existing_book) ? $existing_book['description'] : ''; ?></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="image">Book Image:</label>
+                                    <?php if(isset($existing_book) && !empty($existing_book['image'])): ?>
+                                    <img src="data:image/jpeg;base64,<?= base64_encode($existing_book['image']) ?>"
+                                        alt="Book Image" class="img-fluid">
+                                    <?php endif; ?>
+                                    <input type="file" class="form-control-file" id="image" name="image">
                                 </div>
                                 <input type="hidden" name="id" value="<?php echo  isset($existing_book) ? $existing_book['id'] : ''; ?>" />
                                 <button type="submit"

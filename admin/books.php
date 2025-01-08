@@ -83,6 +83,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                                     <thead>
                                         <tr>
                                             <th>Book Name</th>
+                                            <th>Image</th>
                                             <th>Author</th>
                                             <th>Description</th>
                                             <th>Action</th>
@@ -92,6 +93,15 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                                         <?php foreach ($books as $book): ?>
                                         <tr>
                                             <td><?= $book['name'] ?></td>
+                                            <td>
+                                                <?php if(isset($book) && !empty($book['image'])){ ?>
+                                                <img src="data:image/jpeg;base64,<?= base64_encode($book['image']) ?>"
+                                                    alt="Book Image" class="img-fluid">
+                                                <?php } else { ?>
+                                                    <img src="<?php echo IMAGE_PATH ."book.jpg" ?>"
+                                                    alt="Book Image" class="img-fluid">
+                                                <?php } ?>
+                                            </td>
                                             <td><?= $book['author'] ?></td>
                                             <td><?= $book['description'] ?></td>
                                             <td>
